@@ -221,3 +221,78 @@ public class Main
         return head;
 	}
 }
+
+public class reshimot {
+  
+    public static Node<Integer> f1(Node<Integer> h) {
+        Node<Integer> c = h, r = null, t = null;
+        
+        while (c != null && c.getNext() != null && c.getNext().getNext() != null) {
+            int f = c.getValue(), s = c.getNext().getValue(), t1 = c.getNext().getNext().getValue();
+            int m = Math.max(f, Math.max(s, t1));
+            int p = (m == f) ? 0 : (m == s) ? 1 : 2;
+            Node<Integer> n = new Node<>(p);
+            
+            if (r == null) {
+                r = n;
+                t = n;
+            } else {
+                t.setNext(n);
+                t = n;
+            }
+            c = c.getNext();
+        }
+        return r;
+    }
+
+    public static Node<Integer> f2(Node<Integer> h, Node<Integer> i) {
+        Node<Integer> c = h, p = null;
+        
+        while (i != null) {
+            int x = i.getValue();
+            i = i.getNext();
+            for (int j = 0; j < x; j++) {
+                if (c != null) {
+                    p = c;
+                    c = c.getNext();
+                }
+            }
+            if (c != null) {
+                if (p != null) {
+                    p.setNext(c.getNext());
+                } else {
+                    h = c.getNext();
+                }
+                c = c.getNext();
+            }
+        }
+        return h;
+    }
+
+    public static void print(Node<Integer> h) {
+        Node<Integer> c = h;
+        while (c != null) {
+            System.out.print(c.getValue() + " ");
+            c = c.getNext();
+        }
+        System.out.println();
+    }
+
+    public static void main(String[] args) {
+        Node<Integer> h = new Node<>(6);
+        h.setNext(new Node<>(3));
+        h.getNext().setNext(new Node<>(5));
+        h.getNext().getNext().setNext(new Node<>(2));
+        h.getNext().getNext().getNext().setNext(new Node<>(5));
+        h.getNext().getNext().getNext().getNext().setNext(new Node<>(2));
+        
+        Node<Integer> r = f1(h);
+        print(r);
+
+        Node<Integer> i = new Node<>(0);
+        i.setNext(new Node<>(4));
+        
+        Node<Integer> u = f2(h, i);
+        print(u);
+    }
+}
